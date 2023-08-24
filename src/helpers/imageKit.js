@@ -1,10 +1,10 @@
 const ImageKit = require('imagekit');
-const config = require('../../config.json')
+require('dotenv').config()
 
 const imagekit = new ImageKit({
-    publicKey: config.publicKey,
-    privateKey: config.privateKey,
-    urlEndpoint: config.urlEndpoint
+    publicKey: process.env.publicKey,
+    privateKey: process.env.privateKey,
+    urlEndpoint: process.env.urlEndpoint
 })
 
 module.exports = imagekit

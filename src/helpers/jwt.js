@@ -1,11 +1,11 @@
 const expressJwt = require('express-jwt');
 const userService = require('../services/user');
-const config = require('../../config.json')
+require('dotenv').config()
 
 module.exports = jwt;
 
 function jwt() {
-    const secret = config.secret
+    const secret = process.env.SECRET
     return expressJwt({ secret, algorithms: ['HS256'], isRevoked }).unless({
         path: [
             '/users/authenticate',
