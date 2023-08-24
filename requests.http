@@ -1,0 +1,71 @@
+###
+POST http://localhost:9000/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Luciano",
+    "email": "luciano92@gmail.com",
+    "phone": "1122334455",
+    "password": "12345678"
+}
+
+###
+POST http://localhost:9000/users/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "lucianoib393@gmail.com",
+    "password": "Eltoromehabla393"
+}
+
+###
+GET  http://localhost:9000/me HTTP/1.1
+Content-Type: application/json
+
+{
+    "headers": {
+        "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NGRkMzQzODhhMzM3ZWRiOWQ1NGQyOWIiLCJpYXQiOjE2OTIyOTM5NjgsImV4cCI6MTY5Mjg5ODc2OH0.Kt2elLrmKzh47XKD0-AaLR__JgwYL8okXAo2MuqxR68"
+    }
+}
+
+###
+GET http://localhost:9000/users HTTP/1.1
+
+###
+GET http://localhost:9000/users/64dc3984f2b955cd0b33a835/ HTTP/1.1
+
+###
+PUT http://localhost:9000/users/64dc36a854f921bc3a575eb4/ HTTP/1.1
+Content-Type: application/json
+{
+    "name": "Enano",
+    "email": "lucianoib393@gmail.com",
+}
+
+###
+DELETE http://localhost:9000/users/64dbc23c13028b19045e51fe HTTP/1.1
+
+###
+GET http://localhost:9000/product HTTP/1.1
+
+###
+POST http://localhost:9000/product/create/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "model": "Otro mas",
+    "category": "Lentes de sol",
+    "price": 20000,
+    "image": "Anteojos%20de%20Sol/%20%20%20(9)_AfLMcPrMl.jpeg?updatedAt=169193939839"
+}
+###
+PUT http://localhost:9000/product/64dd1f47d4b566022725eede/ HTTP/1.1
+{
+    "model": "dolce Gabana",
+    "category": "Lentes de sol",
+    "price": 20000,
+    "image": "Anteojos%20de%20Sol/%20%20%20(9)_AfLMcPrMl.jpeg?updatedAt=169193939839"
+}
+
+###
+DELETE http://localhost:9000/product/64dd1f47d4b566022725eede/ HTTP/1.1
