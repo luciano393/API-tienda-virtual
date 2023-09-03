@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import { Schema as _Schema, model as _model } from 'mongoose';
+const Schema = _Schema;
 
 const schema = new Schema({
     model: {type : String, required: true},
@@ -17,4 +17,4 @@ schema.set('toJSON', {
     }
 }) 
 
-module.exports = mongoose.model('Product', schema);
+export default _model('Product', schema);

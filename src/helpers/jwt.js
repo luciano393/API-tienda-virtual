@@ -1,8 +1,11 @@
-const expressJwt = require('express-jwt');
-const userService = require('../services/user');
-require('dotenv').config()
+import expressJwt from 'express-jwt';
+import userServices  from '../services/user.js';
+import env from 'dotenv'
+env.config()
 
-module.exports = jwt;
+export default jwt;
+
+const { getById } = userServices
 
 function jwt() {
     const secret = process.env.SECRET
@@ -17,7 +20,7 @@ function jwt() {
 }
 
 async function isRevoked(req, payload, done) {
-    const user = await userService.getById(payload.sub);
+    const user = await getById(payload.sub);
 
     // revoke token if user no longer exists
     if(!user) {

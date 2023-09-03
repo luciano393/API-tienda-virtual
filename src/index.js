@@ -1,22 +1,27 @@
-const express = require('express');
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import jwt from '../src/helpers/jwt.js';
+import errorHandler from '../src/helpers/error-handler.js';
+import userControler from './controllers/user.controler.js'
+import productControler from './controllers/product.controler.js'
+import emailControler from './controllers/nodemailer.controler.js'
+
+const { urlencoded, json } = bodyParser
 const app = express();
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const jwt = require('../src/helpers/jwt');
-const errorHandler = require('../src/helpers/error-handler');
 
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(urlencoded({ extended: false }));
+app.use(json());
 app.use(cors());
 
 // use JWT auth to secure the api
 app.use(jwt());
 
 // api routes
-app.use('/users', require('./controllers/user.controler'));
-app.use('/product', require('./controllers/product.controler'));
-app.use('/email', require('./controllers/nodemailer.controler'));
+app.use('/users', userControler);
+app.use('/product', productControler);
+app.use('/email', emailControler);
 
 // global error handler
 app.use(errorHandler);

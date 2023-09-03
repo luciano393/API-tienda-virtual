@@ -1,11 +1,12 @@
-const express = require('express');
+import express from 'express'
+import nodemailer from 'nodemailer'
+import config from '../config/config.js'
+
 const router = express.Router();
-const nodemailer = require('nodemailer');
-const config = require('../config/config');
 
 router.post('/send', sendEmail);
 
-module.exports = router;
+export default router;
 
 async function sendEmail(req, res, next) {
     const body = req.body

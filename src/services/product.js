@@ -1,8 +1,8 @@
-const db = require('../helpers/db');
-const imagekit = require('../helpers/imageKit')
-const Product = db.Product;
+import { Product as _Product } from '../helpers/db.js';
+import imagekit from '../helpers/imageKit.js';
+const Product = _Product;
 
-module.exports = {
+export default {
     getAll,
     getById,
     create,
