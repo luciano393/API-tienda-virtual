@@ -2,10 +2,16 @@ import { Schema, model } from "mongoose";
 
 const schema = new Schema({
     userId: {type:Schema.ObjectId, ref:'User'},
-    country:{ type: String,required: true },
-    state:{ type: String,required: true},
-    address: {type: String, required: true},
-    phoneNumber:{type: Number, required: true},
+    country:{ type: String},
+    zip_code:{ type: String},
+    state:{ type: String},
+    city:{ type: String},
+    street_name: {type: String,},
+    street_number: {type: Number},
+    phone:{
+        area_code: {type:Number},
+        number: {type:Number}
+    },
 })
 
 schema.set('toJSON', { 

@@ -1,11 +1,19 @@
 import { Schema, model} from 'mongoose';
 
 const schema = new Schema({
-    userId: {type : Schema.ObjectId, ref:'User', require: true},
-    products: [{type: Schema.ObjectId, ref:'Product'}],
-    amount: {type:Schema.Types.Decimal128},
-    orderAddress: {type:String, require: true},
-    status: {type: Boolean, require: true},
+    payer: {type : Schema.ObjectId, ref:'User', required: true},
+    items: [{type: Schema.ObjectId, ref:'Product', required: true}],
+    amount: {type:Schema.Types.Decimal128, required: true},
+    receiver_address: {
+        zip_code: {type: String, required: true},
+        state_name: {type: String, required: true},
+        city_name: {type: String, required: true},
+        street_name: {type: String, required: true},
+        street_number: {type: Number, required: true},
+        floor: {type: String},
+        apartament: {type: String}
+    },
+    status: {type: Boolean, required: true},
     createDate:{type: Date, default: Date.now}
 })
 

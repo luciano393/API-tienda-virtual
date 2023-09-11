@@ -1,7 +1,8 @@
 import { Schema, model } from "mongoose";
 
 const schema = new Schema({
-    name:{ type: String,required: true },
+    first_name:{ type: String,required: true },
+    last_name:{ type: String,required: true },
     email:{ type: String,required: true, unique: true},
     leads:{ type: Schema.ObjectId, ref: 'Lead'},
     roleId: {type: Schema.ObjectId, ref: 'Role'},

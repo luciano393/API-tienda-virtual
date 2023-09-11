@@ -11,7 +11,7 @@ export default {
 }
 
 async function getAll() {
-    return await Order.find().populate('products')
+    return await Order.find().populate('items')
 }
 
 async function getById(id) {

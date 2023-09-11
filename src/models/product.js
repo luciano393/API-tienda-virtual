@@ -1,10 +1,11 @@
 import { Schema, model} from 'mongoose';
 
 const schema = new Schema({
-    model: {type : String, required: true},
-    categoryId: {type: Schema.ObjectId, ref: 'Category'},
-    price: {type: Schema.Types.Decimal128, required: true},
-    image: {type: String, required: true },
+    title: {type : String, required: true},
+    description: {type : String, required: true},
+    category_id:{type: Schema.ObjectId, ref: 'Category'},
+    unit_price: {type: Schema.Types.Decimal128, required: true},
+    picture_url: {type: String, required: true },
     stock: {type: Number, required: true},
     createDate:{type: Date, default: Date.now}
 })
