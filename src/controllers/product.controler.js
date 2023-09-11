@@ -1,43 +1,43 @@
 import { Router } from 'express';
 const router = Router();
-import productControler from '../services/product.js';
+import productServices from '../services/product.js';
 
-const { _create,_getAll,_getById, _update,__delete } = productControler
+const { create,getAll,getById, update,_delete } = productServices
 
-router.post('/create', create);
-router.get('/', getAll);
-router.get('/:id', getById);
-router.put('/:id', update);
-router.delete('/:id', _delete);
+router.post('/create', _create);
+router.get('/', _getAll);
+router.get('/:id', _getById);
+router.put('/:id', _update);
+router.delete('/:id', __delete);
 
 export default router;
 
-function create(req, res, next) {
-    _create(req.body)
+function _create(req, res, next) {
+    create(req.body)
         .then((product) => res.status(200).json({message: "Product created successfully!", data: product}))
         .catch(e => next(e))
 }
 
-function getAll(req,res,next) {
-    _getAll()
+function _getAll(req,res,next) {
+    getAll()
         .then(products => res.json(products))
         .catch(e => next(e))
 }
 
-function getById(req, res, next) {
-    _getById(req.params.id)
+function _getById(req, res, next) {
+    getById(req.params.id)
         .then(product => product ? res.json(product) : res.sendStatus(404))
         .catch(e => next(e))
 }
 
-function update(req, res, next) {
-    _update(req.params.id, req.body)
+function _update(req, res, next) {
+    update(req.params.id, req.body)
         .then(() => res.json({}))
         .catch(err => next(err));
 }
 
-function _delete(req, res, next) {
-    __delete(req.params.id)
+function __delete(req, res, next) {
+    _delete(req.params.id)
         .then((res) => res.json({}))
         .catch(err => next(err));
 }

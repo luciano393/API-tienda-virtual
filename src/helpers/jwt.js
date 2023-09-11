@@ -1,7 +1,7 @@
 import expressJwt from 'express-jwt';
 import userServices  from '../services/user.js';
-import env from 'dotenv'
-env.config()
+import 'dotenv/config'
+
 
 export default jwt;
 
@@ -11,10 +11,10 @@ function jwt() {
     const secret = process.env.SECRET
     return expressJwt({ secret, algorithms: ['HS256'], isRevoked }).unless({
         path: [
-            '/users/authenticate',
-            '/users/register',
-            '/product',
-            '/email/send'
+            '/api/users/authenticate',
+            '/api/users/register',
+            '/api/product',
+            '/api/email/send'
         ]
     });
 }

@@ -1,6 +1,5 @@
 import ImageKit from 'imagekit';
-import env from 'dotenv'
-env.config()
+import 'dotenv/config'
 
 const imagekit = new ImageKit({
     publicKey: process.env.publicKey,

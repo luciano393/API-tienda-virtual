@@ -1,8 +1,8 @@
 import  mongoose from 'mongoose';
-import productModel from '../models/product.js'
-import userModel from '../models/user.js'
-import env from 'dotenv'
-env.config()
+import Product from '../models/product.js'
+import User from '../models/user.js'
+import Role from '../models/role.js'
+import 'dotenv/config'
 
 let { connect, Promise} = mongoose
 
@@ -11,5 +11,8 @@ connect(process.env.DB_URI, {useNewUrlParser: true, useUnifiedTopology: true})
         .catch(e => console.log("Error: " + e))
 Promise = global.Promise;
 
-export const Product = productModel.default;
-export const User = userModel.default;
+export default {
+        Product,
+        User,
+        Role
+}

@@ -1,5 +1,4 @@
-import { Schema as _Schema, model as _model } from 'mongoose';
-const Schema = _Schema;
+import { Schema, model} from 'mongoose';
 
 const schema = new Schema({
     model: {type : String, required: true},
@@ -17,4 +16,4 @@ schema.set('toJSON', {
     }
 }) 
 
-export default _model('Product', schema);
+export default model('Product', schema);

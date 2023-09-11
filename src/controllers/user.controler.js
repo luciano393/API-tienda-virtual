@@ -2,21 +2,21 @@ import { Router } from 'express';
 const router = Router();
 import userServices from '../services/user.js';
 
-const { _authenticate, create, _getAll, _getById, _update, _delete } = userServices
+const { authenticate, create, getAll, getById, update, _delete } = userServices
 
 // routes
-router.post('/authenticate', authenticate);
+router.post('/authenticate', _authenticate);
 router.post('/register', register);
-router.get('/', getAll);
+router.get('/', _getAll);
 router.get('/current', getCurrent);
-router.get('/:id', getById);
-router.put('/:id', update);
-router.delete('/:id', deleted);
+router.get('/:id', _getById);
+router.put('/:id', _update);
+router.delete('/:id', __delete);
 
 export default router;
 
-function authenticate(req, res, next) {
-    _authenticate(req.body)
+function _authenticate(req, res, next) {
+    authenticate(req.body)
         .then(user => user ? res.status(200).json({message: "Login Successful.", data: user}) : res.status(401).json({message: 'Email or password is incorrect'}))
         .catch(err => next(err));
 }
@@ -27,32 +27,32 @@ function register(req, res, next) {
         .catch(err => next(err)); 
 }
 
-function getAll(req, res, next) {
-    _getAll()
+function _getAll(req, res, next) {
+    getAll()
         .then(users => res.json(users))
         .catch(err => next(err));
 }
 
 function getCurrent(req, res, next) {
-    _getById(req.user.sub)
+    getById(req.user.sub)
         .then(user => user ? res.json(user) : res.sendStatus(404))
         .catch(err => next(err));
 }
 
-function getById(req, res, next) {
-    _getById(req.params.id)
+function _getById(req, res, next) {
+    getById(req.params.id)
         .then(user => user ? res.json(user) : res.sendStatus(404))
         .catch(err => next(err));
 }
 
-function update(req, res, next) {
-    _update(req.params.id, req.body)
-        .then(() => res.json({}))
+function _update(req, res, next) {
+    update(req.params.id, req.body)
+        .then((res) => res.json({message: "Usuario actualizado"}))
         .catch(err => next(err));
 }
 
-function deleted(req, res, next) {
-    __delete(req.params.id)
-        .then(() => res.json({}))
+function __delete(req, res, next) {
+    _delete(req.params.id)
+        .then(() => res.json({message: "Usuario eliminado"}))
         .catch(err => next(err));
 }

@@ -1,6 +1,7 @@
-import { Product as _Product } from '../helpers/db.js';
+import Models from '../helpers/db.js';
 import imagekit from '../helpers/imageKit.js';
-const Product = _Product;
+
+const { Product } = Models
 
 export default {
     getAll,
@@ -36,9 +37,9 @@ async function create(productParam) {
 async function update(id, productParam) {
     const product = await Product.findById(id);
 
-    if(!product) throw 'User not found';
+    if(!product) throw 'Product not found';
 
-    Object.assign(product, userParam);
+    Object.assign(product, productParam);
     await product.save()
 }
 

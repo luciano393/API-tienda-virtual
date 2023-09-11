@@ -1,10 +1,12 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import { User as _User } from '../helpers/db.js';
+import Models from '../helpers/db.js';
+import 'dotenv/config'
 
-const User = _User;
+const secret = process.env.SECRET
 const { compareSync, hashSync } = bcrypt;
-const { sing } = jwt
+const { sign } = jwt
+const { User, Role } = Models
 
 export default {
     authenticate,
@@ -27,7 +29,7 @@ async function authenticate({email, password}){
 }
 
 async function getAll() {
-    return await User.find()
+    return await User.find({})
 }
 
 async function getById(id) {
@@ -41,12 +43,16 @@ async function create(userParam) {
         return console.log('Email "' + userParam.email + '" is already taken')
     } else {
         const user = new User(userParam);
-
+        const role = await Role.findById(userParam.role)
         if(userParam.password) {
             user.hash = hashSync(userParam.password, 10);
         }
+        user.role = role
+        
         const token = sign({sub: user.id}, process.env.SECRET, { expiresIn: '7d' });
-        await user.save();
+        const savedUser = await user.save();
+        role.users = role.users.concat(savedUser._id)
+        await role.save()
         return user, token
     }
     

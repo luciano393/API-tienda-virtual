@@ -6,6 +6,7 @@ import errorHandler from '../src/helpers/error-handler.js';
 import userControler from './controllers/user.controler.js'
 import productControler from './controllers/product.controler.js'
 import emailControler from './controllers/nodemailer.controler.js'
+import roleControler from './controllers/role.controler.js'
 
 const { urlencoded, json } = bodyParser
 const app = express();
@@ -19,9 +20,10 @@ app.use(cors());
 app.use(jwt());
 
 // api routes
-app.use('/users', userControler);
-app.use('/product', productControler);
-app.use('/email', emailControler);
+app.use('/api/users', userControler);
+app.use('/api/product', productControler);
+app.use('/api/email', emailControler);
+app.use('/api/role', roleControler);
 
 // global error handler
 app.use(errorHandler);
