@@ -4,6 +4,7 @@ import User from '../models/user.js'
 import Role from '../models/role.js'
 import Category from '../models/category.js'
 import Order from '../models/order.js'
+import Lead from '../models/lead.js'
 import 'dotenv/config'
 
 let { connect, Promise} = mongoose
@@ -18,5 +19,6 @@ export default {
         User,
         Role,
         Category,
-        Order
+        Order,
+        Lead
 }

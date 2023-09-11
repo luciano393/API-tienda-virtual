@@ -12,7 +12,7 @@ export default {
 }
 
 async function getAll() {
-    return await Product.find()
+    return await Product.find().populate('categoryId')
 }
 
 async function getById(id) {

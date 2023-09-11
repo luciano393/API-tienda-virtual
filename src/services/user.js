@@ -29,11 +29,11 @@ async function authenticate({email, password}){
 }
 
 async function getAll() {
-    return await User.find({}).populate('roleId')
+    return await User.find()
 }
 
 async function getById(id) {
-    return await User.findById(id);
+    return await User.findById(id).populate("orders").populate("leads")
 }
 
 async function create(userParam) {

@@ -5,6 +5,7 @@ const schema = new Schema({
     categoryId: {type: Schema.ObjectId, ref: 'Category'},
     price: {type: Schema.Types.Decimal128, required: true},
     image: {type: String, required: true },
+    stock: {type: Number, required: true},
     createDate:{type: Date, default: Date.now}
 })
 

@@ -8,6 +8,7 @@ import productControler from './controllers/product.controler.js'
 import emailControler from './controllers/nodemailer.controler.js'
 import roleControler from './controllers/role.controler.js'
 import orderControler from './controllers/order.controller.js'
+import leadControler from './controllers/lead.controller.js'
 import categoryControler from './controllers/category.controller.js'
 
 const { urlencoded, json } = bodyParser
@@ -28,6 +29,7 @@ app.use('/api/email', emailControler);
 app.use('/api/role', roleControler);
 app.use('/api/category', categoryControler)
 app.use('/api/order', orderControler)
+app.use('/api/lead', leadControler)
 
 // global error handler
 app.use(errorHandler);
