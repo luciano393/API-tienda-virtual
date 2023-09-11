@@ -1,10 +1,8 @@
 import { Schema, model} from 'mongoose';
 
 const schema = new Schema({
-    model: {type : String, required: true},
-    categoryId: {type: Schema.ObjectId, ref: 'Category'},
-    price: {type: Schema.Types.Decimal128, required: true},
-    image: {type: String, required: true },
+    name: {type : String, required: true},
+    products: [{type: Schema.ObjectId, ref:'Product'}],
     createDate:{type: Date, default: Date.now}
 })
 
@@ -16,4 +14,4 @@ schema.set('toJSON', {
     }
 }) 
 
-export default model('Product', schema);
+export default model('Category', schema);

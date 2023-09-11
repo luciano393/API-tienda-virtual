@@ -7,6 +7,8 @@ import userControler from './controllers/user.controler.js'
 import productControler from './controllers/product.controler.js'
 import emailControler from './controllers/nodemailer.controler.js'
 import roleControler from './controllers/role.controler.js'
+import orderControler from './controllers/order.controller.js'
+import categoryControler from './controllers/category.controller.js'
 
 const { urlencoded, json } = bodyParser
 const app = express();
@@ -17,13 +19,15 @@ app.use(json());
 app.use(cors());
 
 // use JWT auth to secure the api
-app.use(jwt());
+//app.use(jwt());
 
 // api routes
-app.use('/api/users', userControler);
+app.use('/api/user', userControler);
 app.use('/api/product', productControler);
 app.use('/api/email', emailControler);
 app.use('/api/role', roleControler);
+app.use('/api/category', categoryControler)
+app.use('/api/order', orderControler)
 
 // global error handler
 app.use(errorHandler);

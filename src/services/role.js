@@ -11,7 +11,7 @@ export default {
 }
 
 async function getAll() {
-    return await Role.find()
+    return await Role.find().populate('users')
 }
 
 async function getById(id) {

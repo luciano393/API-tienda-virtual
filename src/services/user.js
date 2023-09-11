@@ -29,7 +29,7 @@ async function authenticate({email, password}){
 }
 
 async function getAll() {
-    return await User.find({})
+    return await User.find({}).populate('roleId')
 }
 
 async function getById(id) {
@@ -43,12 +43,10 @@ async function create(userParam) {
         return console.log('Email "' + userParam.email + '" is already taken')
     } else {
         const user = new User(userParam);
-        const role = await Role.findById(userParam.role)
+        const role = await Role.findById(userParam.roleId)
         if(userParam.password) {
             user.hash = hashSync(userParam.password, 10);
-        }
-        user.role = role
-        
+        }  
         const token = sign({sub: user.id}, process.env.SECRET, { expiresIn: '7d' });
         const savedUser = await user.save();
         role.users = role.users.concat(savedUser._id)

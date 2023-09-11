@@ -1,7 +1,7 @@
 import Models from '../helpers/db.js';
 import imagekit from '../helpers/imageKit.js';
 
-const { Product } = Models
+const { Product, Category } = Models
 
 export default {
     getAll,
@@ -28,8 +28,11 @@ async function create(productParam) {
     })
     .then(async response => {
         productParam.image = response.filePath
+        const category = await Category.findById(productParam.categoryId)
         const product = new Product(productParam);
-        await product.save()
+        const savedProduct = await product.save()
+        category.products = category.products.concat(savedProduct._id)
+        await category.save()
     })
     .catch(error => console.log(error))
 }
