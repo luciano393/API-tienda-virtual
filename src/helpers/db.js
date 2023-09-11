@@ -1,12 +1,24 @@
-require('dotenv').config()
-const mongoose = require('mongoose');
+import  mongoose from 'mongoose';
+import Product from '../models/product.js'
+import User from '../models/user.js'
+import Role from '../models/role.js'
+import Category from '../models/category.js'
+import Order from '../models/order.js'
+import Lead from '../models/lead.js'
+import 'dotenv/config'
 
-mongoose.connect(process.env.DB_URI, {useNewUrlParser: true, useUnifiedTopology: true})
+let { connect, Promise} = mongoose
+
+connect(process.env.DB_URI, {useNewUrlParser: true, useUnifiedTopology: true})
         .then(() => console.log('Data base is connect'))
         .catch(e => console.log("Error: " + e))
-mongoose.Promise = global.Promise;
+Promise = global.Promise;
 
-module.exports = {
-    Product: require('../models/product'),
-    User: require('../models/user')
-};
+export default {
+        Product,
+        User,
+        Role,
+        Category,
+        Order,
+        Lead
+}

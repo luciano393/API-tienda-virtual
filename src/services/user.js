@@ -1,10 +1,14 @@
-const config = require('../config/config')
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const db = require('../helpers/db');
-const User = db.User;
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import Models from '../helpers/db.js';
+import 'dotenv/config'
 
-module.exports = {
+const secret = process.env.SECRET
+const { compareSync, hashSync } = bcrypt;
+const { sign } = jwt
+const { User, Role } = Models
+
+export default {
     authenticate,
     getAll,
     getById,
@@ -15,8 +19,8 @@ module.exports = {
 
 async function authenticate({email, password}){
     const user = await User.findOne({ email });
-    if(user && bcrypt.compareSync(password, user.hash)) {
-        const token = jwt.sign({sub: user.id}, config.secret, { expiresIn: '7d' });
+    if(user && compareSync(password, user.hash)) {
+        const token = sign({sub: user.id}, secret, { expiresIn: '7d' });
         return {
             ...user.toJSON(),
             token
@@ -29,7 +33,7 @@ async function getAll() {
 }
 
 async function getById(id) {
-    return await User.findById(id);
+    return await User.findById(id).populate("orders").populate("leads")
 }
 
 async function create(userParam) {
@@ -39,12 +43,14 @@ async function create(userParam) {
         return console.log('Email "' + userParam.email + '" is already taken')
     } else {
         const user = new User(userParam);
-
+        const role = await Role.findById(userParam.roleId)
         if(userParam.password) {
-            user.hash = bcrypt.hashSync(userParam.password, 10);
-        }
-        const token = jwt.sign({sub: user.id}, config.secret, { expiresIn: '7d' });
-        await user.save();
+            user.hash = hashSync(userParam.password, 10);
+        }  
+        const token = sign({sub: user.id}, process.env.SECRET, { expiresIn: '7d' });
+        const savedUser = await user.save();
+        role.users = role.users.concat(savedUser._id)
+        await role.save()
         return user, token
     }
     
@@ -59,7 +65,7 @@ async function update(id, userParam) {
 
     // hash password if it was entered
     if (userParam.password) {
-        userParam.hash = bcrypt.hashSync(userParam.password, 10);
+        userParam.hash = hashSync(userParam.password, 10);
     }
 
     // copy userParam properties to user

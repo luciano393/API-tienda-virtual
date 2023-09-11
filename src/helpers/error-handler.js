@@ -1,4 +1,4 @@
-module.exports = errorHandler;
+export default errorHandler;
 
 function errorHandler(err, req, res, next) {
     if (typeof (err) === 'string') {

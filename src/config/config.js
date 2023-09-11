@@ -1,4 +1,5 @@
-require('dotenv').config
+import env from 'dotenv'
+env.config()
 
 const config = {
         "nodemailerConfig": {
@@ -7,10 +8,10 @@ const config = {
         "secure":false, 
         "auth":{ 
             "type":"login", 
-            "user":process.env.USER-MAIL, 
-            "pass":process.env.USER-MAIL-PASSWORD 
+            "user":process.env.USER_MAIL, 
+            "pass":process.env.USER_MAIL_PASSWORD 
         }
     }
 }
 
-module.export = config;
+export default config;

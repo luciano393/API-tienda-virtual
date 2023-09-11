@@ -1,8 +1,9 @@
-const db = require('../helpers/db');
-const imagekit = require('../helpers/imageKit')
-const Product = db.Product;
+import Models from '../helpers/db.js';
+import imagekit from '../helpers/imageKit.js';
 
-module.exports = {
+const { Product, Category } = Models
+
+export default {
     getAll,
     getById,
     create,
@@ -11,7 +12,7 @@ module.exports = {
 }
 
 async function getAll() {
-    return await Product.find()
+    return await Product.find().populate('categoryId')
 }
 
 async function getById(id) {
@@ -27,8 +28,11 @@ async function create(productParam) {
     })
     .then(async response => {
         productParam.image = response.filePath
+        const category = await Category.findById(productParam.categoryId)
         const product = new Product(productParam);
-        await product.save()
+        const savedProduct = await product.save()
+        category.products = category.products.concat(savedProduct._id)
+        await category.save()
     })
     .catch(error => console.log(error))
 }
@@ -36,9 +40,9 @@ async function create(productParam) {
 async function update(id, productParam) {
     const product = await Product.findById(id);
 
-    if(!product) throw 'User not found';
+    if(!product) throw 'Product not found';
 
-    Object.assign(product, userParam);
+    Object.assign(product, productParam);
     await product.save()
 }
 
