@@ -26,7 +26,7 @@ async function create(paymentParams) {
 async function update(id, paymentParam) {
     const payment = await Payment.findById(id);
 
-    if(!payment) throw 'Order not found'
+    if(!payment) throw 'Payment not found'
 
     Object.assign(payment, paymentParam)
     await paymentr.save()

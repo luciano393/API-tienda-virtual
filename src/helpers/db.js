@@ -21,5 +21,6 @@ export default {
         Role,
         Category,
         Order,
-        Lead
+        Lead,
+        Payment
 }

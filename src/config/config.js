@@ -1,5 +1,4 @@
-import env from 'dotenv'
-env.config()
+import 'dotenv/config'
 
 const config = {
         "nodemailerConfig": {
