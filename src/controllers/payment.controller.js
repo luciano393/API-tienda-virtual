@@ -1,46 +1,54 @@
+import mercadopago from "mercadopago";
 import { Router } from 'express'
-import paymentService from '../services/payment.js'
 
 const router = Router()
 
-const {create,getAll,getById,update,_delete} = paymentService
-
 // routes
-router.post('/create', _create);
-router.get('/', _getAll);
-router.get('/:id', _getById);
-router.put('/:id', _update);
-router.delete('/:id', __delete);
+router.post('/create', createOrder);
+router.get('/success', (req, res) => res.send("success"));
+router.get('/failure', (req, res) => res.send("failure"));
+router.get('/pending', (req, res) => res.send("pending"));
+router.post('/webhook', receiveWebhook);
 
 export default router
 
-function _getAll(req, res, next) {
-    getAll()
-        .then(payments => res.json(payments))
-        .catch(err => next(err));
+const createOrder = async (req, res) =>  {
+    mercadopago.configure({
+        access_token: ""
+    })
+    const result = mercadopago.preferences.create({
+        items: [
+            {
+                title: "Laptop",
+                unit_price: 500,
+                currency_id: "ARG",
+                quantity: 1
+            }
+        ],
+        back_urls: {
+            success: "http://localhost:9000/api/payment/success",
+            failure: "http://localhost:9000/api/payment/failure",
+            pending: "http://localhost:9000/api/payment/pending",
+        },
+        notification_url: "https://d0bf-190-246-12-183.ngrok.io/api/payment/webhook"
+    })
+    console.log(result)
+    res.send(result.body)
 }
 
-function _getById(req, res, next) {
-    getById(req.params.id)
-        .then(payment => user ? res.json(payment) : res.sendStatus(404))
-        .catch(err => next(err));
-}
+const receiveWebhook = async (req, res) => {
+    console.log(req.query)
+    const payment = req.query
 
-function _create(req, res, next) {
-    create(req.body)
-        .then((payment) => res.status(200).json({message: "Payment created successfully!", data: payment}))
-        .catch(err => next(err)); 
+    try {
+        if(payment.type === 'payment') {
+            const data = await mercadopago.payment.findById(payment["data.id"])
+            console.log(data)
+        }
+        
+        res.sendStatus(204)
+    } catch (error) {
+        console.log(error)
+        return res.sendStatus(500).json({ error: error.message })
+    }
 }
-
-function _update(req, res, next) {
-    update(req.params.id, req.body)
-        .then(() => res.json({}))
-        .catch(err => next(err));
-}
-
-function __delete(req, res, next) {
-    _delete(req.params.id)
-        .then(() => res.json({}))
-        .catch(err => next(err));
-}
-
