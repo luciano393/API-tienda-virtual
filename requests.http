@@ -10,12 +10,16 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:9000/users/authenticate HTTP/1.1
+POST http://localhost:9000/api/payment/create HTTP/1.1
 Content-Type: application/json
-
 {
-    "email": "lucianoib393@gmail.com",
-    "password": "Eltoromehabla393"
+        "id": "51354136136",
+        "category_id": "513253161",
+        "title": "laptop",
+        "description":"notebook lenovo",
+        "unit_price": 500,
+        "currency_id": "ARS",
+        "quantity": 1
 }
 
 ###

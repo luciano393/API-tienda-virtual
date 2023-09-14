@@ -28,7 +28,10 @@ function _getById(req, res, next) {
 
 function _create(req, res, next) {
     create(req.body)
-        .then((order) => res.status(200).json({message: "Order created successfully!", data: order}))
+        .then((order) => {
+            const items = order.items
+            res.status(200).json({message: "Order created successfully!", data: order}).redirect('/api/payment/success')
+        })
         .catch(err => next(err)); 
 }
 

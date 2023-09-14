@@ -1,4 +1,5 @@
 import Models from '../helpers/db.js'
+import {ObjectId} from 'mongodb'
 
 const { Order, User } = Models
 
@@ -11,19 +12,22 @@ export default {
 }
 
 async function getAll() {
-    return await Order.find().populate('items')
+    return await Order.find()
 }
 
 async function getById(id) {
     return await Order.findById(id)
 }
 
-async function create(orderParams) {
-    const order = new Order(orderParams)
-    const savedOrder = await order.save()
-    const user = await User.findById(order.userId)
-    user.orders = user.orders.concat(savedOrder)
+async function create(order_params, user_id) {
+    const {items, payer, shipments} = order_params
+    const order = await Order.create({
+        items, payer, shipments, user_id
+    })
+    const user = await User.findById(order.user_id)
+    user.orders = user.orders.concat(order)
     await user.save() 
+    return order
 }
 
 async function update(id, orderParam) {

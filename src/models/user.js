@@ -5,7 +5,7 @@ const schema = new Schema({
     last_name:{ type: String,required: true },
     email:{ type: String,required: true, unique: true},
     leads:{ type: Schema.ObjectId, ref: 'Lead'},
-    roleId: {type: Schema.ObjectId, ref: 'Role'},
+    roleId: {type: Schema.ObjectId, ref: 'Role', required:true},
     hash:{type: String, required: true},
     orders: [{type:Schema.ObjectId, ref: 'Order'}],
     createDate:{type: Date, default: Date.now}
