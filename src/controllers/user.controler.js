@@ -47,7 +47,7 @@ function _getById(req, res, next) {
 
 function _update(req, res, next) {
     update(req.params.id, req.body)
-        .then((res) => res.json({message: "Usuario actualizado"}))
+        .then(() => res.json({message: "Usuario actualizado"}))
         .catch(err => next(err));
 }
 

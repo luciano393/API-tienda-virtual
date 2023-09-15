@@ -9,7 +9,7 @@ const schema = new Schema({
     street_name: {type: String,},
     street_number: {type: Number},
     phone:{
-        area_code: {type:Number},
+        area_code: {type:String},
         number: {type:Number}
     },
 })
