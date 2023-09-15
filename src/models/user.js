@@ -8,6 +8,7 @@ const schema = new Schema({
     roleId: {type: Schema.ObjectId, ref: 'Role', required:true},
     hash:{type: String, required: true},
     orders: [{type:Schema.ObjectId, ref: 'Order'}],
+    payments: [{type:Schema.ObjectId, ref: 'Payment'}],
     createDate:{type: Date, default: Date.now}
 })
 

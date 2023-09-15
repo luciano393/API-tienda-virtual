@@ -14,7 +14,8 @@ function jwt() {
             '/api/user/authenticate',
             '/api/user/register',
             '/api/product',
-            '/api/email/send'
+            '/api/email/send',
+            '/api/payment/webhook'
         ]
     });
 }

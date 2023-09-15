@@ -1,28 +1,34 @@
 import Models from '../helpers/db.js'
-import {ObjectId} from 'mongodb'
 
 const { Order, User } = Models
 
 export default {
     getAll,
     getById,
-    create,
+    create_order,
     update,
-    _delete
+    _delete,
+    getPreference_id
 }
 
 async function getAll() {
     return await Order.find()
 }
 
+async function getPreference_id(param) {
+    const order = await Order.findOne({preference_id: param.preference_id})
+    return order.user_id
+}
+
 async function getById(id) {
     return await Order.findById(id)
 }
 
-async function create(order_params, user_id) {
-    const {items, payer, shipments} = order_params
+async function create_order(order_params, user_id) {
+    const {items, payer, shipments, id} = order_params
+    const preference_id = id
     const order = await Order.create({
-        items, payer, shipments, user_id
+        items, payer, shipments, user_id, preference_id
     })
     const user = await User.findById(order.user_id)
     user.orders = user.orders.concat(order)

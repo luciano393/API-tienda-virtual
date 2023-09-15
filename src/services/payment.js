@@ -1,11 +1,11 @@
 import Models from '../helpers/db.js'
 
-const { Payment} = Models
+const { Payment, User} = Models
 
 export default {
     getAll,
     getById,
-    create,
+    create_payment,
     update,
     _delete
 }
@@ -18,9 +18,26 @@ async function getById(id) {
     return await Payment.findById(id)
 }
 
-async function create(paymentParams) {
-    const payment = new Payment(paymentParams)
-    return await payment.save()
+async function create_payment(paymentParams, userId) {
+    const {additional_info,currency_id,date_approved,order,payment_type_id,status_detail,transaction_details} = paymentParams
+    const {ip_address, items,payer} = additional_info
+    const user_id = userId
+    const payment = await Payment.create({
+        user_id,
+        ip_address,
+        items,
+        payer,
+        currency_id,
+        date_approved,
+        order,
+        payment_type_id,
+        status_detail,
+        transaction_details
+    })
+    const user = await User.findById(userId)
+    user.payments = user.payments.concat(payment._id)
+    await user.save()
+    return payment
 }
 
 async function update(id, paymentParam) {

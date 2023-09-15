@@ -2,6 +2,7 @@ import { Schema, model} from 'mongoose';
 
 const schema = new Schema({
     user_id: {type: Schema.ObjectId, required: true},
+    preference_id: {type: String, required: true},
     items: [{type: Object, required: true}],
     payer: {type: Object},
     shipments: {type: Object},

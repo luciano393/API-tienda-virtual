@@ -2,9 +2,11 @@ import mercadopago from "mercadopago";
 import { Router } from 'express'
 import 'dotenv/config'
 import orderService from '../services/order.js'
+import paymentService from '../services/payment.js'
 
 
-const { create } = orderService
+const { create_order, getPreference_id } = orderService
+const { create_payment } = paymentService
 
 const router = Router()
 
@@ -38,22 +40,27 @@ async function createOrder(req, res){
             failure: "http://localhost:9000/api/payment/failure",
             pending: "http://localhost:9000/api/payment/pending",
         },
-        notification_url: "https://5e46-190-246-12-183.ngrok.io/api/payment/webhook"
+        notification_url: "https://c1de-190-246-12-183.ngrok.io/api/payment/webhook"
     })
-    create(result.body, user_id)
+    create_order(result.body, user_id)
+        .then(() => console.log({message: "create order"}))
+        .catch((e) => console.log({message: e}))
     res.send(result.body.init_point)
 }
 
 async function receiveWebhook(req, res){
     const payment = req.query
-
     try {
         if(payment.type === 'payment') {
             const data = await mercadopago.payment.findById(payment["data.id"])
-            const {additional_info, date_approved, order, payer, payment_method, status_detail} = data.body
-            console.log(additional_info.items, date_approved, order, payer, payment_method, status_detail)
+            const data_order = await mercadopago.merchant_orders.findById(data.body.order.id)   
+            const userId = await getPreference_id(data_order.body)
+            create_payment(data.body, userId)
+                .then(() => {                    
+                    console.log({message: "create payment"})
+                })
+                .catch((e) => console.log({message: e}))
         }
-        
         res.sendStatus(204)
     } catch (error) {
         console.log(error)
